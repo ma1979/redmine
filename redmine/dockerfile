@@ -14,5 +14,14 @@ RUN git clone https://github.com/pinzolo/redmine_persist_wfmt.git plugins/redmin
 RUN echo "bundle install --without test development" >> /docker-entrypoint.sh
 RUN echo "bundle exec rake redmine:plugins:migrate NAME=redmine_persist_wfmt RAILS_ENV=production" >> /docker-entrypoint.sh
 RUN echo "bundle exec rake pwfmt:persist_all FORMAT=textile RAILS_ENV=production" >> /docker-entrypoint.sh
+
+# redmine_tagging のインストール
+#RUN git clone https://github.com/Restream/redmine_tagging.git plugins/redmine_tagging
+#RUN echo "bundle install --without test development" >> /docker-entrypoint.sh
+#RUN echo "bundle exec rake acts_as_taggable_on_engine:install:migrations RAILS_ENV=production" >> /docker-entrypoint.sh
+#RUN echo "bundle exec rake db:migrate RAILS_ENV=production" >> /docker-entrypoint.sh
+#RUN echo "bundle exec rake redmine:plugins:migrate RAILS_ENV=production" >> /docker-entrypoint.sh
+
+# docker-entrypoint.sh で passenger start が plugin のインストール完了後に実行されるようにする
 RUN sed -i -e 's/exec "$@"//g' /docker-entrypoint.sh
 RUN echo 'exec "$@"' >> /docker-entrypoint.sh
