@@ -1,0 +1,27 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:latest
+    volumes_from:
+      - data-mysql
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: redmine
+
+  data-mysql:
+    image: busybox:latest
+    volumes: 
+      - /var/lib/mysql
+
+  redmine:
+    image: ma1979/redmine
+    ports:
+      - "81:3000"
+    environment:
+      REDMINE_RELATIVE_URL_ROOT: /redmine
+      DB_USER: redmine
+      DB_PASS: password
+      SMTP_USER: address@hoge.com
+      SMTP_PASS: password
